@@ -37,6 +37,21 @@ app.post("/api/products", async (req, res) => {
   }
 });
 
+app.put("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const product = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, product, {
+      new: true,
+    });
+    res.status(200).json({ success: true, data: updatedProduct });
+  } catch (error) {
+    console.error("Error in updating product", error.message);
+    res.status(500).json({ success: false, message: "server Error" });
+  }
+});
+
 app.delete("/api/products/:id", async (req, res) => {
   const { id } = req.params;
 
